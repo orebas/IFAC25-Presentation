@@ -1,0 +1,71 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+% Custom colors for consistency
+\definecolor{successgreen}{RGB}{46,125,50}
+\definecolor{errorred}{RGB}{211,47,47}
+
+\begin{document}
+
+\title{Appendix Table: Derivative Order 3 (Third Derivatives)}
+\author{RMSE Comparison Across Methods and Noise Levels}
+\date{}
+\maketitle
+
+\section{Performance Table: Derivative Order 3}
+
+\begin{center}
+\begin{tabular}{@{}l|ccc@{}}
+\toprule
+\textbf{Method} & \textbf{Noise = 0} & \textbf{Noise = 1e-6} & \textbf{Noise = 1e-3} \\
+\midrule
+AAA\_Julia & \textcolor{successgreen}{0.53} & \textcolor{errorred}{$2.2e05$} & \textcolor{errorred}{$1.3e09$} \\
+AAA\_lowpres\_Julia & \textcolor{successgreen}{0.00} & \textcolor{errorred}{$1.8e10$} & \textcolor{errorred}{$2.6e10$} \\
+Butterworth\_Python & 28.9 & 28.9 & 28.9 \\
+Chebyshev\_Python & 60.6 & $8.9e02$ & \textcolor{errorred}{$1.8e05$} \\
+FiniteDiff\_Python & 45.2 & \textcolor{errorred}{$1.9e04$} & \textcolor{errorred}{$2.0e07$} \\
+\textbf{GPR\_Julia} & \textcolor{successgreen}{9.4} & \textcolor{successgreen}{9.5} & 19.9 \\
+GP\_Matern\_1.5\_Python & \textcolor{errorred}{$1.6e04$} & \textcolor{errorred}{$5.9e05$} & $6.9e02$ \\
+GP\_Matern\_2.5\_Python & 23.8 & \textcolor{errorred}{$1.4e03$} & 10.1 \\
+GP\_Matern\_Python & \textcolor{errorred}{$1.6e04$} & \textcolor{errorred}{$5.9e05$} & $6.9e02$ \\
+GP\_RBF\_Iso\_Python & 16.8 & 16.8 & 13.8 \\
+GP\_RBF\_Python & 16.8 & 16.8 & 13.8 \\
+JuliaAAAFullOpt\_Julia & \textcolor{successgreen}{3.9} & \textcolor{errorred}{$3.1e04$} & \textcolor{errorred}{$4.7e05$} \\
+JuliaAAALS\_Julia & \textcolor{successgreen}{0.02} & 58.4 & \textcolor{errorred}{$2.4e13$} \\
+JuliaAAASmoothBary\_Julia & \textcolor{errorred}{$1.7e04$} & \textcolor{errorred}{$8.8e03$} & \textcolor{errorred}{$1.3e09$} \\
+JuliaAAATwoStage\_Julia & \textcolor{successgreen}{0.02} & 96.4 & \textcolor{errorred}{$2.4e13$} \\
+KalmanGrad\_Python & 37.8 & 27.6 & 34.4 \\
+LOESS\_Julia & \textcolor{errorred}{$8.1e04$} & \textcolor{errorred}{$5.2e08$} & \textcolor{errorred}{$1.1e04$} \\
+SVR\_Python & 28.6 & 28.6 & 28.6 \\
+SavitzkyGolay\_Python & 23.0 & \textcolor{errorred}{$1.8e04$} & \textcolor{errorred}{$2.2e07$} \\
+TVDiff\_Julia & $1.5e02$ & \textcolor{errorred}{$3.1e03$} & \textcolor{errorred}{$6.5e03$} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Notes}
+\begin{itemize}
+\item RMSE values are shown for third derivative approximation (derivative order 3)
+\item \textcolor{successgreen}{Green values} indicate excellent performance (RMSE $< 10$)
+\item \textcolor{errorred}{Red values} indicate severe failure (RMSE $> 1000$)
+\item Values represent Root Mean Square Error across test cases
+\item GPR\_Julia shows the most stable performance across noise levels
+\item Many methods exhibit the ``noise cliff'' phenomenon - catastrophic failure at higher noise levels
+\item Scientific notation: $2.2e05$ means $2.2 \times 10^5$
+\end{itemize}
+
+\section{Key Observations}
+\begin{itemize}
+\item \textbf{Noise Sensitivity:} Most methods fail catastrophically when noise increases from 1e-6 to 1e-3
+\item \textbf{GPR Stability:} GPR\_Julia maintains reasonable performance across all noise levels
+\item \textbf{AAA Methods:} Excellent at zero noise but completely fail with any significant noise
+\item \textbf{Traditional Methods:} Finite differences and polynomial methods show severe noise amplification
+\end{itemize}
+
+\end{document}

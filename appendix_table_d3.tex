@@ -1,0 +1,17 @@
+\begin{tabular}{@{}l|ccc@{}}
+\toprule
+\textbf{Method} & \textbf{Noise = 0} & \textbf{Noise = 1e-6} & \textbf{Noise = 1e-3} \\
+\midrule
+AAA\_Julia & {\color{successgreen}0.53} & {\color{errorred}$2.2e5$} & {\color{errorred}$1.3e9$} \\
+Butterworth\_Python & 28.90 & 28.90 & 28.90 \\
+Chebyshev\_Python & 60.56 & $8.9e2$ & {\color{errorred}$1.8e5$} \\
+FiniteDiff\_Python & 45.19 & {\color{errorred}$1.9e4$} & {\color{errorred}$2.0e7$} \\
+\textbf{GPR\_Julia} & {\color{successgreen}9.44} & {\color{successgreen}9.45} & 19.93 \\
+GP\_RBF\_Iso\_Python & 16.79 & 16.78 & 13.84 \\
+KalmanGrad\_Python & 37.80 & 27.62 & 34.38 \\
+LOESS\_Julia & {\color{errorred}$8.1e4$} & {\color{errorred}$5.2e8$} & {\color{errorred}$1.1e4$} \\
+SVR\_Python & 28.58 & 28.58 & 28.58 \\
+SavitzkyGolay\_Python & 22.97 & {\color{errorred}$1.8e4$} & {\color{errorred}$2.2e7$} \\
+TVDiff\_Julia & $1.5e2$ & {\color{errorred}$3.1e3$} & {\color{errorred}$6.5e3$} \\
+\bottomrule
+\end{tabular}

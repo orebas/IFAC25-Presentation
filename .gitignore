@@ -1,0 +1,29 @@
+# Exclude derivative-approx-benchmark directory
+deriv_approx_benchmark/
+derivative-approx-benchmark/
+
+# LaTeX auxiliary files
+*.aux
+*.log
+*.out
+*.toc
+*.bbl
+*.blg
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.nav
+*.snm
+*.vrb
+
+# Python virtual environment
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Backup files
+*~
+*.bak
+*.swp
+*.tmp

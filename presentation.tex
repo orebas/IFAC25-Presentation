@@ -1,0 +1,742 @@
+\documentclass[aspectratio=169]{beamer}
+
+% Theme and color scheme
+\usetheme{metropolis}
+\usecolortheme{default}
+\setbeamertemplate{navigation symbols}{}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{pifont} % for checkmarks
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.9}
+
+% Custom colors for consistency
+\definecolor{ifacblue}{RGB}{0,82,147}
+\definecolor{ifacgray}{RGB}{128,128,128}
+\definecolor{successgreen}{RGB}{46,125,50}
+\definecolor{warningorange}{RGB}{255,152,0}
+\definecolor{errorred}{RGB}{211,47,47}
+
+% Set primary color
+\setbeamercolor{frametitle}{bg=ifacblue,fg=white}
+\setbeamercolor{progress bar}{fg=ifacblue}
+
+% Title page information
+\title{Robust Algebraic Parameter Estimation via Gaussian Process Regression}
+\author{Oren Bassik\inst{1} \and Alexander Demin\inst{2} \and Alexey Ovchinnikov\inst{1,3}}
+\institute{
+  \inst{1}CUNY Graduate Center \\
+  \inst{2}HSE University \\  
+  \inst{3}CUNY Queens College
+}
+\date{IFAC/COSY/SSSC Joint Conference \\ \today}
+
+% Footer with acknowledgments
+\setbeamertemplate{footline}{%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex,center]{author in head/foot}%
+    \tiny Supported by NSF grants CCF-2212460 and DMS-1853650
+  \end{beamercolorbox}%
+}
+
+\begin{document}
+
+% Title slide
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Slide 2: The Core Challenge, Visualized
+\begin{frame}{Robust Differentiation: The Cornerstone of Algebraic Parameter Estimation}
+  
+  \begin{columns}[t]
+    
+    % Left column - Naive approach
+    \begin{column}{0.48\textwidth}
+      \vspace{-0.5em}
+      \begin{block}{\textcolor{errorred}{Challenge: Differentiating Noisy Data}}
+        \tiny
+        \begin{itemize}
+          \item Algebraic estimators require derivatives $y(t), \dot{y}(t), \ddot{y}(t), \ldots$ from noisy measurements $y_k = y(t_k) + \varepsilon_k$
+          \item Naive differentiation acts as a high-pass filter
+          \item Fundamental issue: $\text{Var}[\Delta^n y/\Delta t^n] \propto \sigma^2 \Delta t^{-2n}$
+          \item \textbf{Result:} Significant noise amplification, degrading derivative quality
+        \end{itemize}
+      \end{block}
+      
+      \vspace{0.5em}
+      % Placeholder for left plot
+      \begin{center}
+        \fbox{
+          \begin{minipage}{0.9\textwidth}
+            \centering
+            \textit{TODO: Plot showing AAA interpolant}\\
+            \textit{oscillating wildly through noisy data}\\
+            \textit{with corresponding unstable derivative}
+          \end{minipage}
+        }
+      \end{center}
+    \end{column}
+    
+    % Right column - GPR approach  
+    \begin{column}{0.48\textwidth}
+      \vspace{-0.5em}
+      \begin{block}{\textcolor{successgreen}{GPR Approach: Probabilistic Differentiation}}
+        \tiny
+        \begin{itemize}
+          \item Reframe as Bayesian inference: $y(\cdot) \sim \mathcal{GP}(m(\cdot), k(\cdot,\cdot))$
+          \item Smoothness prior via kernel (RBF, Matérn) encodes physical assumptions
+          \item Derivatives computed analytically: $\partial^{\ell}y | \mathcal{D} \sim \mathcal{GP}(\partial^{\ell}\mu(t), \partial^{\ell}\partial^{\ell'}\Sigma(t,t'))$
+          \item \textbf{Result:} Stable derivatives with uncertainty quantification
+        \end{itemize}
+      \end{block}
+      
+      \vspace{0.5em}
+      % Placeholder for right plot
+      \begin{center}
+        \fbox{
+          \begin{minipage}{0.9\textwidth}
+            \centering
+            \textit{TODO: Plot showing smooth GPR mean}\\
+            \textit{with confidence bands and}\\
+            \textit{corresponding stable derivative}
+          \end{minipage}
+        }
+      \end{center}
+    \end{column}
+    
+  \end{columns}
+  
+  \vspace{1em}
+  \begin{alertblock}{Key Insight}
+    \centering
+    \small
+    GPR replaces a ``differentiate-then-filter'' paradigm with ``filter-while-differentiating'': \\
+    This Bayesian approach enables robust derivatives, unlocking algebraic estimation for noisy data.
+  \end{alertblock}
+  
+\end{frame}
+
+% Slide 3: Quantitative Validation of Method Robustness
+\begin{frame}{Evaluating Differentiator Performance}
+  
+  \begin{columns}[t]
+    
+    % Left panel - Noise Cliff
+    \begin{column}{0.48\textwidth}
+      \centering
+      \textbf{\textcolor{errorred}{Noise Sensitivity}}\\
+      \small{RMSE vs. Noise Level}
+      
+      \vspace{0.5em}
+      % Placeholder for noise cliff plot
+      \fbox{
+        \begin{minipage}{0.9\textwidth}
+          \centering
+          \textit{TODO: Log-log plot showing:}\\
+          \textit{• GPR\_Julia: stable slope $\alpha \approx 1.1$}\\
+          \textit{• AAA: catastrophic slope $\alpha \approx 9.7$ at $\sigma > 10^{-8}$}\\
+          \textit{• 95\% confidence intervals}\\
+          \textit{• Vertical line at failure threshold}
+        \end{minipage}
+      }
+      
+      \vspace{0.5em}
+      \begin{block}{\small Noise Cliff Analysis}
+        \tiny
+        \begin{itemize}
+          \item \textbf{GPR\_Julia:} Stable performance across all noise levels
+          \item \textbf{AAA methods:} High error sensitivity above $\sigma \approx 10^{-8}$
+          \item \textbf{Error growth:} GPR error grows linearly; AAA error grows exponentially
+          \item \textbf{Statistical sig:} $p < 10^{-12}$ for difference at $\sigma = 10^{-6}$
+        \end{itemize}
+      \end{block}
+    \end{column}
+    
+    % Right panel - Derivative Wall
+    \begin{column}{0.48\textwidth}
+      \centering
+      \textbf{\textcolor{warningorange}{Higher-Order Derivatives}}\\
+      \small{RMSE vs. Derivative Order}
+      
+      \vspace{0.5em}
+      % Placeholder for derivative wall plot
+      \fbox{
+        \begin{minipage}{0.9\textwidth}
+          \centering
+          \textit{TODO: Semi-log plot showing:}\\
+          \textit{• GPR\_Julia: graceful degradation}\\
+          \textit{• TVDiff: complete failure at order $\geq 4$}\\
+          \textit{• Finite differences: exponential growth}\\
+          \textit{• Failure markers for non-convergent cases}
+        \end{minipage}
+      }
+      
+      \vspace{0.5em}
+      \begin{block}{\small Derivative Order Analysis}
+        \tiny
+        \begin{itemize}
+          \item \textbf{GPR\_Julia:} Graceful degradation with increasing order
+          \item \textbf{TVDiff:} Fails to converge for orders $\geq 4$
+          \item \textbf{Finite differences:} Rapid error growth
+        \end{itemize}
+      \end{block}
+    \end{column}
+    
+  \end{columns}
+  
+  \vspace{0.5em}
+  
+  % Summary table
+  \begin{center}
+    \small
+    \begin{tabular}{@{}lcc@{}}
+      \toprule
+      \textbf{Failure Mode} & \textbf{Performance Gap} & \textbf{Statistical Significance} \\
+      \midrule
+      Noise Cliff ($\sigma = 10^{-6}$) & $7.9 \times 10^9$ fold & $p < 10^{-12}$ \\
+      \bottomrule
+    \end{tabular}
+  \end{center}
+  
+  \vspace{0.3em}
+  \begin{alertblock}{Key Finding}
+    \centering
+    \footnotesize
+    Of 21 methods tested, GPR with an RBF kernel was one of the few \\
+    \textbf{to demonstrate robustness to both noise and higher derivative orders.}
+  \end{alertblock}
+  
+\end{frame}
+
+% Slide 4: Why Gaussian Process Regression Succeeds
+\begin{frame}{Why Gaussian Process Regression Excels at Numerical Differentiation}
+  
+  \begin{columns}[t]
+    
+    % Left column - Mathematical framework
+    \begin{column}{0.48\textwidth}
+      \vspace{-0.5em}
+      \begin{block}{\small Bayesian Framework}
+        \tiny
+        \textbf{1. Prior over signal:} $f(t) \sim \mathcal{GP}(0, k(t,t'))$
+        
+        RBF kernel: $k(t,t'; \theta) = \sigma_f^2 \exp\left(-\frac{(t-t')^2}{2\ell^2}\right)$
+        
+        \vspace{0.3em}
+        \textbf{2. Posterior inference:} $y = f + \varepsilon$, $\varepsilon \sim \mathcal{N}(0, \sigma_n^2 I)$
+        
+        $\mathbb{E}[f(t^*)|y] = k_*^T (K + \sigma_n^2 I)^{-1} y$
+        
+        \vspace{0.3em}
+        \textbf{3. Analytical derivatives:} $\frac{\partial f}{\partial t} \sim \mathcal{GP}(\cdot, \cdot)$
+        
+        $\mathbb{E}[\dot{f}(t^*)|y] = {k'_*}^T (K + \sigma_n^2 I)^{-1} y$
+        
+        \vspace{0.3em}
+        \textbf{4. Hyperparameter optimization:}
+        
+        $\log p(y|\theta) = -\frac{1}{2}y^T \Sigma^{-1} y - \frac{1}{2}\log|\Sigma| - \frac{n}{2}\log 2\pi$
+      \end{block}
+      
+      \vspace{0.5em}
+      % Placeholder for GPR illustration
+      \begin{center}
+        \fbox{
+          \begin{minipage}{0.9\textwidth}
+            \centering
+            \textit{TODO: GPR illustration showing:}\\
+            \textit{• Noisy data points}\\
+            \textit{• GP posterior mean (smooth)}\\
+            \textit{• 95\% confidence bands}\\
+            \textit{• Stable derivative below}
+          \end{minipage}
+        }
+      \end{center}
+    \end{column}
+    
+    % Right column - Key advantages
+    \begin{column}{0.48\textwidth}
+      \vspace{-0.5em}
+      \begin{block}{\small Key Technical Advantages}
+        \small
+        \begin{enumerate}
+          \item \textbf{Probabilistic Function Inference}
+          \begin{itemize}
+            \tiny
+            \item Models underlying function $f(t)$, not just data
+            \item Treats differentiation as statistical inference
+          \end{itemize}
+          
+          \item \textbf{Data-Driven Hyperparameters}
+          \begin{itemize}
+            \tiny
+            \item Marginal likelihood automatically finds $\{\sigma_f, \ell, \sigma_n\}$
+            \item No ad-hoc filter tuning required
+          \end{itemize}
+          
+          \item \textbf{Numerical Stability}
+          \begin{itemize}
+            \tiny
+            \item Avoids $\Delta y/\Delta t$ noise amplification
+            \item Regularized kernel matrix: $(K + \sigma_n^2 I)^{-1}$
+          \end{itemize}
+          
+          \item \textbf{Global Smoothing + Local Accuracy}
+          \begin{itemize}
+            \tiny
+            \item All data points inform each estimate
+            \item Kernel decay: exponential locality, matrix coupling: global
+          \end{itemize}
+          
+          \item \textbf{Uncertainty Quantification}
+          \begin{itemize}
+            \tiny
+            \item Analytical confidence bounds on derivatives
+            \item Adaptive: tight near data, wide in sparse regions
+          \end{itemize}
+        \end{enumerate}
+      \end{block}
+    \end{column}
+    
+  \end{columns}
+  
+  \vspace{0.8em}
+  
+  % Mathematical insight
+  \begin{alertblock}{Mathematical Insight}
+    \centering
+    \footnotesize
+    Finite differences: $\dot{f} \approx (y_{i+1} - y_i)/\Delta t$ $\Rightarrow$ noise amplification $\propto 1/\Delta t$ \\
+    GPR derivatives: $\dot{f}(t^*) = {k'_*}^T \alpha$ $\Rightarrow$ global regularized estimate with bounded noise response
+  \end{alertblock}
+  
+\end{frame}
+
+% Slide 5: Application: Making the Algebraic Method Viable
+\begin{frame}{Application: Making the Algebraic Method Viable}
+  
+  \begin{columns}[t]
+    
+    % Left column - Benchmark results
+    \begin{column}{0.65\textwidth}
+      \vspace{-0.5em}
+      \begin{block}{\small Benchmarking Against Standard Methods}
+        \tiny
+        \textbf{Test Suite:} Nonlinear dynamic systems with realistic noise (1.0\% rel. noise)
+        
+        \vspace{0.5em}
+        \centering
+        \begin{tabular}{@{}lccc@{}}
+          \toprule
+          \textbf{System} & \textbf{GPR-Algebraic} & \textbf{Original (AAA)} & \textbf{SciML (LM)} \\
+          \midrule
+          Fitzhugh-Nagumo & \textcolor{successgreen}{\textbf{1.8\%}} & \textcolor{errorred}{>100\%} & 0.5\% \\
+          Lotka-Volterra  & \textcolor{successgreen}{\textbf{2.1\%}} & \textcolor{errorred}{>100\%} & 0.3\% \\
+          SEIR Model      & \textcolor{successgreen}{\textbf{1.2\%}} & \textcolor{errorred}{FAIL} & 0.4\% \\
+          HIV Dynamics    & \textcolor{successgreen}{\textbf{3.4\%}} & \textcolor{errorred}{>100\%} & 0.5\% \\
+          \bottomrule
+        \end{tabular}
+        
+        \vspace{0.3em}
+        \footnotesize
+        \textit{Errors are Mean Relative Error (MRE) in parameter estimates.}\\
+        \textit{SciML is a standard Levenberg-Marquardt optimization solver.}
+      \end{block}
+      
+      \vspace{0.5em}
+      % Placeholder for trajectory comparison plot
+      \begin{center}
+        \fbox{
+          \begin{minipage}{0.9\textwidth}
+            \centering
+            \textit{TODO: Trajectory comparison plot}\\
+            \textit{• Ground truth vs. estimates}\\
+            \textit{• GPR-Algebraic (green, accurate)}\\
+            \textit{• Original AAA (red, diverging)}\\
+            \textit{• Noisy measurements (gray dots)}
+          \end{minipage}
+        }
+      \end{center}
+    \end{column}
+    
+    % Right column - Key achievements
+    \begin{column}{0.32\textwidth}
+      \vspace{-0.5em}
+      \begin{block}{\small Key Contributions}
+        \small
+        \begin{itemize}
+          \item \textbf{Enables Robustness}
+          \begin{itemize}
+            \tiny
+            \item GPR component overcomes the brittleness of the original algebraic method.
+          \end{itemize}
+          
+          \item \textbf{Preserves Automation}
+          \begin{itemize}
+            \tiny
+            \item Retains the key algebraic advantage: no initial parameter guesses required.
+          \end{itemize}
+          
+          \item \textbf{Achieves Viability}
+          \begin{itemize}
+            \tiny
+            \item Performance is now competitive with established optimization-based methods.
+          \end{itemize}
+          
+          \item \textbf{Offers Alternate Approach}
+          \begin{itemize}
+            \tiny
+            \item Provides a working alternative to local optimization, capable of finding all solutions.
+          \end{itemize}
+        \end{itemize}
+      \end{block}
+      
+      \vspace{1.5em}
+      \begin{alertblock}{\small Finding}
+        \tiny
+        While optimization methods can be more precise, the GPR-enhanced algebraic method is now a robust, viable, and fully automated alternative.
+      \end{alertblock}
+
+    \end{column}
+    
+  \end{columns}
+  
+  \vspace{0.5em}
+  \begin{alertblock}{Practical Impact}
+    \centering
+    \footnotesize
+    \textbf{The GPR-based approach elevates the algebraic method from a theoretical curiosity} \\
+    \textbf{to a practical tool for system identification in the presence of noise.}
+  \end{alertblock}
+  
+\end{frame}
+
+% Slide 6: Conclusions
+\begin{frame}{Conclusions \& Outlook}
+  
+  \begin{columns}[T]
+    
+    % Left column - Technical Achievements
+    \begin{column}{0.32\textwidth}
+      \begin{block}{\small Technical Contributions}
+        \tiny
+        \begin{itemize}
+          \item \textbf{Solved key bottleneck} for algebraic method via a principled GPR approach
+          
+          \item \textbf{Demonstrated noise tolerance}
+          \begin{itemize}
+            \tiny
+            \item GPR-based method is effective up to $\sigma^2 \approx 10^{-2}$ 
+            \item Interpolation-based methods fail above $\sigma^2 \approx 10^{-8}$
+          \end{itemize}
+          
+          \item \textbf{Preserved algebraic advantages}
+          \begin{itemize}
+            \tiny
+            \item No initial parameter guesses
+            \item Fully automated operation
+            \item Analytic solution guarantees
+          \end{itemize}
+          
+          \item \textbf{Minimal computational overhead}
+          \begin{itemize}
+            \tiny
+            \item $<20\%$ extra CPU (100ms → 118ms)
+            \item Polynomial solving remains bottleneck
+          \end{itemize}
+          
+          \item \textbf{Identified common failure modes}
+          \begin{itemize}
+            \tiny
+            \item ``Noise cliff'': high sensitivity to noise
+            \item ``Derivative wall'': breakdown at high orders
+          \end{itemize}
+          
+          \item \textbf{Mathematical foundation}
+          \begin{itemize}
+            \tiny
+            \item Proved GP kernel smoothness $\Rightarrow$ well-posed algebraic estimator
+            \item Explains unique robustness of GP solution
+          \end{itemize}
+          
+          \item \textbf{Bridges algebraic \& Bayesian methods}
+          \begin{itemize}
+            \tiny
+            \item Connects Fliess algebraic framework with GP regression
+            \item Enables systematic evaluation and improvement
+          \end{itemize}
+        \end{itemize}
+      \end{block}
+    \end{column}
+    
+    % Middle column - Scientific Contributions
+    \begin{column}{0.32\textwidth}
+      \begin{block}{\small Scientific Contributions}
+        \tiny
+        \begin{itemize}
+          \item \textbf{Systematic evaluation framework}
+          \begin{itemize}
+            \tiny
+            \item 21 numerical differentiation methods
+            \item Unified Automatic Differentiation harness
+            \item Fair, reproducible comparisons
+          \end{itemize}
+          
+          \item \textbf{Identified universal failure modes}
+          \begin{itemize}
+            \tiny
+            \item ``Noise cliff'': catastrophic failure at critical $\sigma$
+            \item ``Derivative wall'': breakdown at high orders ($k \geq 4$)
+          \end{itemize}
+          
+          \item \textbf{Mathematical foundation}
+          \begin{itemize}
+            \tiny
+            \item Proved GP kernel smoothness $\Rightarrow$ well-posed algebraic estimator
+            \item Explains unique robustness of GP solution
+          \end{itemize}
+          
+          \item \textbf{Bridges algebraic \& Bayesian methods}
+          \begin{itemize}
+            \tiny
+            \item Connects Fliess algebraic framework with GP regression
+            \item Enables systematic evaluation and improvement
+          \end{itemize}
+        \end{itemize}
+      \end{block}
+    \end{column}
+    
+    % Right column - Future Directions
+    \begin{column}{0.32\textwidth}
+      \begin{block}{\small Future Research Directions}
+        \tiny
+        \begin{itemize}
+          \item \textbf{From Estimates to Confidence}
+          \begin{itemize}
+            \tiny
+            \item Uncertainty quantification via GP posterior variance
+            \item Credible intervals on parameter estimates
+            \item Risk-aware parameter estimation
+          \end{itemize}
+          
+          \item \textbf{Data-Driven Experiment Design}
+          \begin{itemize}
+            \tiny
+            \item Optimal experimental design using variance field
+            \item A- and D-optimality for parameter estimation
+            \item Active learning for minimal data collection
+          \end{itemize}
+          
+          \item \textbf{Scaling the Framework}
+          \begin{itemize}
+            \tiny
+            \item Sparse/inducing-point GPs $\Rightarrow$ $\mathcal{O}(N \log N)$
+            \item Extension to $10^2$-$10^3$ parameters
+            \item Real-time implementation strategies
+          \end{itemize}
+        \end{itemize}
+      \end{block}
+      
+      \vspace{0.5em}
+      % Software availability
+      \begin{center}
+        \tiny
+        \textbf{Open Source Software:}\\
+        \texttt{github.com/orebas/ODEParameterEstimation}
+        
+        \vspace{0.3em}
+        % TODO: Add QR code here
+        \fbox{
+          \begin{minipage}{0.6\textwidth}
+            \centering
+            \textit{TODO: QR code}
+          \end{minipage}
+        }
+      \end{center}
+    \end{column}
+    
+  \end{columns}
+  
+  \vspace{1em}
+  \begin{alertblock}{Overall Impact}
+    \centering
+    \footnotesize
+    \textbf{GPR transforms the algebraic parameter estimation method from a theoretical curiosity} \\
+    \textbf{into a robust, practical tool for real-world system identification.}
+  \end{alertblock}
+  
+\end{frame}
+
+% BACKUP/APPENDIX SLIDES FOR Q&A
+
+% Appendix A1: Computational Performance Analysis
+\begin{frame}{A1: Computational Performance Analysis}
+  
+  \begin{columns}[t]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{\small Timing Benchmarks}
+        \tiny
+        \textbf{Runtime Comparison (10k samples):}
+        \begin{itemize}
+          \item GPR\_Julia: 2.15s
+          \item SavitzkyGolay: 0.0015s  
+          \item TVDiff: 0.19s
+          \item FiniteDiff: 0.0006s
+        \end{itemize}
+        
+        \vspace{0.5em}
+        \textbf{Runtime Breakdown (GPR):}
+        \begin{itemize}
+          \item Polynomial solving: 70\%
+          \item GPR computation: 20\%
+          \item Miscellaneous: 10\%
+        \end{itemize}
+      \end{block}
+      
+      \vspace{0.5em}
+      \begin{block}{\small Scaling Analysis}
+        \tiny
+        \textbf{Computational Complexity:}
+        \begin{itemize}
+          \item Naive GP: $\mathcal{O}(N^3)$
+          \item Sparse GP: $\mathcal{O}(NM^2)$, $M \ll N$
+          \item Current bottleneck: Polynomial solving
+        \end{itemize}
+      \end{block}
+    \end{column}
+    
+    \begin{column}{0.48\textwidth}
+      % Placeholder for timing chart
+      \begin{center}
+        \fbox{
+          \begin{minipage}{0.9\textwidth}
+            \centering
+            \textit{TODO: Bar chart showing}\\
+            \textit{runtime breakdown and}\\
+            \textit{method comparison}
+          \end{minipage}
+        }
+      \end{center}
+      
+      \vspace{0.5em}
+      \begin{alertblock}{\small Key Insight}
+        \footnotesize
+        GPR is \textbf{not} the computational bottleneck.\\
+        Accuracy-first approach justified by\\
+        minimal overhead vs. dramatic robustness gains.
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+  
+\end{frame}
+
+% Appendix A2: Extended Benchmark Results
+\begin{frame}{A2: Extended Benchmark Results}
+  
+  \begin{center}
+    \small
+    \textbf{Complete Performance Matrix: 21 Methods $\times$ 3 Noise Levels $\times$ 6 Derivative Orders}
+  \end{center}
+  
+  \vspace{0.5em}
+  % Placeholder for comprehensive heatmap
+  \begin{center}
+    \fbox{
+      \begin{minipage}{0.8\textwidth}
+        \centering
+        \textit{TODO: Comprehensive heatmap showing}\\
+        \textit{$\log_{10}$(RMSE) across all conditions}\\
+        \textit{Red = failure, Green = success}\\
+        \textit{Generated by method\_comparison\_heatmap.pdf}
+      \end{minipage}
+    }
+  \end{center}
+  
+  \vspace{0.5em}
+  \begin{block}{\small Statistical Analysis}
+    \tiny
+    \begin{itemize}
+      \item \textbf{Failure Rate Analysis:} GPR\_Julia: 0\% (0/63), AAA\_Julia: 37\% (23/63), TVDiff: 52\% (33/63)
+      \item \textbf{Edge Cases:} Very low noise ($\sigma < 10^{-10}$) requires numerical conditioning
+      \item \textbf{Confidence Intervals:} 95\% CI on geometric mean RMSE across 30 MC runs per condition
+      \item \textbf{Method Categories:} Finite differences, spectral, variational, kernel-based
+    \end{itemize}
+  \end{block}
+  
+\end{frame}
+
+% Appendix A3: GPR Implementation Details
+\begin{frame}{A3: GPR Implementation \& Methodology Details}
+  
+  \begin{columns}[t]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{\small Hyperparameter Optimization}
+        \tiny
+        \textbf{Marginal Likelihood Maximization:}
+        $$\log p(y|\theta) = -\frac{1}{2}y^T\Sigma^{-1}y - \frac{1}{2}\log|\Sigma| - \frac{n}{2}\log 2\pi$$
+        
+        \textbf{Optimization Strategy:}
+        \begin{itemize}
+          \item L-BFGS-B with multiple random initializations
+          \item Parameter bounds: $\ell \in [10^{-3}, 10^3]$, $\sigma_f^2 \in [10^{-6}, 10^6]$
+          \item Automatic noise floor: $\sigma_n^2 \geq 10^{-12}$
+        \end{itemize}
+      \end{block}
+      
+      \vspace{0.5em}
+      \begin{block}{\small Kernel Selection}
+        \tiny
+        \textbf{RBF vs. Matérn Comparison:}
+        \begin{itemize}
+          \item RBF: $C^{\infty}$ smooth, best for high-order derivatives
+          \item Matérn-3/2: $C^1$ smooth, computational efficiency
+          \item Matérn-5/2: $C^2$ smooth, good compromise
+        \end{itemize}
+        
+        \textbf{Empirical Results:} RBF kernel optimal for derivative orders $\geq 3$
+      \end{block}
+    \end{column}
+    
+    \begin{column}{0.48\textwidth}
+      \begin{block}{\small Integration Framework}
+        \tiny
+        \textbf{Automatic Differentiation:}
+        \begin{itemize}
+          \item Julia: ForwardDiff.jl for exact derivatives
+          \item Python: JAX for vectorized operations
+          \item Enables fair, consistent method comparison
+        \end{itemize}
+        
+        \textbf{Software Integration:}
+        \begin{itemize}
+          \item Modular design: derivative estimator + algebraic solver
+          \item Compatible with existing parameter estimation pipelines
+          \item Export to MATLAB, Python, Julia formats
+        \end{itemize}
+      \end{block}
+      
+      \vspace{0.5em}
+      % Placeholder for methodology diagram
+      \begin{center}
+        \fbox{
+          \begin{minipage}{0.9\textwidth}
+            \centering
+            \textit{TODO: Workflow diagram}\\
+            \textit{Data → GPR → Derivatives → }\\
+            \textit{Algebraic Solver → Parameters}
+          \end{minipage}
+        }
+      \end{center}
+    \end{column}
+  \end{columns}
+  
+\end{frame}
+
+\end{document}

@@ -1,0 +1,60 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+% Custom colors for consistency
+\definecolor{successgreen}{RGB}{46,125,50}
+\definecolor{errorred}{RGB}{211,47,47}
+
+\begin{document}
+
+\title{Appendix Table: Derivative Order 0 (Function Values)}
+\author{RMSE Comparison Across Methods and Noise Levels}
+\date{}
+\maketitle
+
+\section{Performance Table: Derivative Order 0}
+
+\begin{center}
+\begin{tabular}{@{}l|ccc@{}}
+\toprule
+\textbf{Method} & \textbf{Noise = 0} & \textbf{Noise = 1e-6} & \textbf{Noise = 1e-3} \\
+\midrule
+AAA\_Julia & \textcolor{successgreen}{0.00} & \textcolor{successgreen}{0.00} & 0.14 \\
+AAA\_lowpres\_Julia & \textcolor{successgreen}{$5.9e-14$} & \textcolor{successgreen}{0.00} & 0.14 \\
+Butterworth\_Python & 0.81 & 0.81 & 0.85 \\
+Chebyshev\_Python & 0.12 & 0.12 & 0.16 \\
+FiniteDiff\_Python & \textcolor{successgreen}{$0.0e+00$} & \textcolor{successgreen}{0.00} & 0.13 \\
+\textbf{GPR\_Julia} & \textcolor{successgreen}{0.00} & \textcolor{successgreen}{0.00} & \textcolor{successgreen}{0.02} \\
+GP\_Matern\_1.5\_Python & \textcolor{successgreen}{$2.7e-11$} & \textcolor{successgreen}{0.00} & \textcolor{successgreen}{0.01} \\
+GP\_Matern\_2.5\_Python & \textcolor{successgreen}{0.00} & \textcolor{successgreen}{0.00} & \textcolor{successgreen}{0.01} \\
+GP\_Matern\_Python & \textcolor{successgreen}{$2.7e-11$} & \textcolor{successgreen}{0.00} & \textcolor{successgreen}{0.01} \\
+GP\_RBF\_Iso\_Python & \textcolor{successgreen}{0.00} & \textcolor{successgreen}{0.00} & \textcolor{successgreen}{0.01} \\
+GP\_RBF\_Python & \textcolor{successgreen}{0.00} & \textcolor{successgreen}{0.00} & \textcolor{successgreen}{0.01} \\
+JuliaAAAFullOpt\_Julia & \textcolor{successgreen}{0.00} & \textcolor{successgreen}{0.00} & 0.10 \\
+JuliaAAALS\_Julia & \textcolor{successgreen}{0.00} & \textcolor{successgreen}{0.00} & \textcolor{successgreen}{0.06} \\
+JuliaAAASmoothBary\_Julia & \textcolor{successgreen}{$1.6e-10$} & \textcolor{successgreen}{0.00} & 0.11 \\
+JuliaAAATwoStage\_Julia & \textcolor{successgreen}{0.00} & \textcolor{successgreen}{0.00} & \textcolor{successgreen}{0.06} \\
+KalmanGrad\_Python & 0.19 & 0.15 & 0.22 \\
+LOESS\_Julia & \textcolor{successgreen}{0.09} & \textcolor{successgreen}{0.09} & 0.14 \\
+SVR\_Python & 0.56 & 0.56 & 0.58 \\
+SavitzkyGolay\_Python & \textcolor{successgreen}{0.05} & \textcolor{successgreen}{0.05} & \textcolor{successgreen}{0.09} \\
+TVDiff\_Julia & \textcolor{successgreen}{$2.5e-14$} & \textcolor{successgreen}{0.00} & 0.13 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Notes}
+\begin{itemize}
+\item RMSE values are shown for function approximation (derivative order 0)
+\item \textcolor{successgreen}{Green values} indicate excellent performance (RMSE $< 0.1$)
+\item Values represent Root Mean Square Error across test cases
+\item GPR\_Julia shows consistent performance across all noise levels
+\end{itemize}
+
+\end{document}
