@@ -1,0 +1,280 @@
+
+==================== Model: lv_periodic ====================
+
+--- Noise Level: 0.0 ---
+
+##### Estimator: Opt #####
+
+Best cluster (ID 1) found with 1 similar solutions.
+Presenting best solution from this cluster (Error: inf):
+-----------------------------------------------------
+Variable |   True Value |    Estimated |   Rel. Error
+-----------------------------------------------------
+x1(t)    |     2.000000 |     2.000000 |     0.000000
+x2(t)    |     0.500000 |     0.500000 |     0.000000
+a        |     1.500000 |     1.862548 |     0.241699
+d        |     0.800000 |     0.821223 |     0.026529
+b        |     0.900000 |     0.983594 |     0.092882
+c        |     3.000000 |     3.008019 |     0.002673
+
+
+##### Estimator: PE #####
+
+>>>> Interpolator Method: GPR <<<<
+
+Best cluster (ID 2) found with 1 similar solutions.
+Presenting best solution from this cluster (Error: 0.190411):
+-----------------------------------------------------
+Variable |   True Value |    Estimated |   Rel. Error
+-----------------------------------------------------
+x1(t)    |     2.000000 |     1.999961 |     0.000020
+x2(t)    |     0.500000 |     0.500013 |     0.000026
+a        |     1.500000 |     1.499997 |     0.000002
+b        |     0.900000 |     0.900002 |     0.000003
+c        |     3.000000 |     3.000027 |     0.000009
+d        |     0.800000 |     0.800022 |     0.000028
+
+
+>>>> Interpolator Method: aaad <<<<
+
+Best cluster (ID 1) found with 1 similar solutions.
+Presenting best solution from this cluster (Error: 0.190414):
+-----------------------------------------------------
+Variable |   True Value |    Estimated |   Rel. Error
+-----------------------------------------------------
+x1(t)    |     2.000000 |     2.000000 |     0.000000
+x2(t)    |     0.500000 |     0.500000 |     0.000000
+a        |     1.500000 |     1.500000 |     0.000000
+b        |     0.900000 |     0.900000 |     0.000000
+c        |     3.000000 |     3.000000 |     0.000000
+d        |     0.800000 |     0.800000 |     0.000000
+
+
+--- Noise Level: 0.01 ---
+
+##### Estimator: Opt #####
+
+Best cluster (ID 1) found with 1 similar solutions.
+Presenting best solution from this cluster (Error: inf):
+-----------------------------------------------------
+Variable |   True Value |    Estimated |   Rel. Error
+-----------------------------------------------------
+x1(t)    |     2.000000 |     2.000000 |     0.000000
+x2(t)    |     0.500000 |     0.500000 |     0.000000
+a        |     1.500000 |     1.382560 |     0.078294
+d        |     0.800000 |     0.722490 |     0.096887
+b        |     0.900000 |     0.798411 |     0.112876
+c        |     3.000000 |     2.943304 |     0.018899
+
+
+##### Estimator: PE #####
+
+>>>> Interpolator Method: GPR <<<<
+
+Best cluster (ID 2) found with 1 similar solutions.
+Presenting best solution from this cluster (Error: 0.199302):
+-----------------------------------------------------
+Variable |   True Value |    Estimated |   Rel. Error
+-----------------------------------------------------
+x1(t)    |     2.000000 |     2.237456 |     0.118728
+x2(t)    |     0.500000 |     0.439438 |     0.121125
+a        |     1.500000 |     1.438164 |     0.041224
+b        |     0.900000 |     0.728529 |     0.190523
+c        |     3.000000 |     3.003427 |     0.001142
+d        |     0.800000 |     0.833103 |     0.041379
+
+
+>>>> Interpolator Method: aaad <<<<
+
+Best cluster (ID 4) found with 1 similar solutions.
+Presenting best solution from this cluster (Error: 0.170119):
+-----------------------------------------------------
+Variable |   True Value |    Estimated |   Rel. Error
+-----------------------------------------------------
+x1(t)    |     2.000000 |     1.725611 |     0.137194
+x2(t)    |     0.500000 |     0.619952 |     0.239904
+a        |     1.500000 |     1.364644 |     0.090237
+b        |     0.900000 |     0.419798 |     0.533557
+c        |     3.000000 |     3.758231 |     0.252744
+d        |     0.800000 |     1.111521 |     0.389402
+
+
+--- Noise Level: 0.05 ---
+
+##### Estimator: Opt #####
+
+Best cluster (ID 1) found with 1 similar solutions.
+Presenting best solution from this cluster (Error: inf):
+-----------------------------------------------------
+Variable |   True Value |    Estimated |   Rel. Error
+-----------------------------------------------------
+x1(t)    |     2.000000 |     2.000000 |     0.000000
+x2(t)    |     0.500000 |     0.500000 |     0.000000
+a        |     1.500000 |     1.386369 |     0.075754
+d        |     0.800000 |     0.847236 |     0.059045
+b        |     0.900000 |     0.894278 |     0.006358
+c        |     3.000000 |     3.073989 |     0.024663
+
+
+##### Estimator: PE #####
+
+>>>> Interpolator Method: GPR <<<<
+
+Best cluster (ID 1) found with 1 similar solutions.
+Presenting best solution from this cluster (Error: 0.190866):
+-----------------------------------------------------
+Variable |   True Value |    Estimated |   Rel. Error
+-----------------------------------------------------
+x1(t)    |     2.000000 |     2.897156 |     0.448578
+x2(t)    |     0.500000 |     0.346153 |     0.307693
+a        |     1.500000 |     1.048157 |     0.301229
+b        |     0.900000 |     0.711482 |     0.209464
+c        |     3.000000 |     4.561739 |     0.520580
+d        |     0.800000 |     1.049179 |     0.311473
+
+
+>>>> Interpolator Method: aaad <<<<
+
+Best cluster (ID 3) found with 1 similar solutions.
+Presenting best solution from this cluster (Error: 0.714670):
+-----------------------------------------------------
+Variable |   True Value |    Estimated |   Rel. Error
+-----------------------------------------------------
+x1(t)    |     2.000000 |     4.540062 |     1.270031
+x2(t)    |     0.500000 |     1.898843 |     2.797686
+a        |     1.500000 |    11.191445 |     6.460964
+b        |     0.900000 |     3.819107 |     3.243452
+c        |     3.000000 |     1.674690 |     0.441770
+d        |     0.800000 |     0.641253 |     0.198433
+
+
+==================== Model: vanderpol ====================
+
+--- Noise Level: 0.0 ---
+
+##### Estimator: Opt #####
+
+Best cluster (ID 1) found with 1 similar solutions.
+Presenting best solution from this cluster (Error: inf):
+-----------------------------------------------------
+Variable |   True Value |    Estimated |   Rel. Error
+-----------------------------------------------------
+x1(t)    |     2.000000 |     2.000000 |     0.000000
+x2(t)    |     0.000000 |     0.000000 |     0.000000
+a        |     1.000000 |     0.915123 |     0.084877
+b        |     1.000000 |     1.067473 |     0.067473
+
+
+##### Estimator: PE #####
+
+>>>> Interpolator Method: GPR <<<<
+
+Best cluster (ID 1) found with 1 similar solutions.
+Presenting best solution from this cluster (Error: 0.000000):
+-----------------------------------------------------
+Variable |   True Value |    Estimated |   Rel. Error
+-----------------------------------------------------
+x1(t)    |     2.000000 |     2.000000 |     0.000000
+x2(t)    |     0.000000 |     0.000000 |     0.000000
+a        |     1.000000 |     1.000000 |     0.000000
+b        |     1.000000 |     1.000000 |     0.000000
+
+
+>>>> Interpolator Method: aaad <<<<
+
+Best cluster (ID 1) found with 1 similar solutions.
+Presenting best solution from this cluster (Error: 0.000000):
+-----------------------------------------------------
+Variable |   True Value |    Estimated |   Rel. Error
+-----------------------------------------------------
+x1(t)    |     2.000000 |     2.000000 |     0.000000
+x2(t)    |     0.000000 |    -0.000000 |     0.000000
+a        |     1.000000 |     1.000000 |     0.000000
+b        |     1.000000 |     1.000000 |     0.000000
+
+
+--- Noise Level: 0.01 ---
+
+##### Estimator: Opt #####
+
+Best cluster (ID 1) found with 1 similar solutions.
+Presenting best solution from this cluster (Error: inf):
+-----------------------------------------------------
+Variable |   True Value |    Estimated |   Rel. Error
+-----------------------------------------------------
+x1(t)    |     2.000000 |     2.000000 |     0.000000
+x2(t)    |     0.000000 |     0.000000 |     0.000000
+a        |     1.000000 |     1.138889 |     0.138889
+b        |     1.000000 |     0.868441 |     0.131559
+
+
+##### Estimator: PE #####
+
+>>>> Interpolator Method: GPR <<<<
+
+Best cluster (ID 1) found with 1 similar solutions.
+Presenting best solution from this cluster (Error: 0.002740):
+-----------------------------------------------------
+Variable |   True Value |    Estimated |   Rel. Error
+-----------------------------------------------------
+x1(t)    |     2.000000 |     1.994921 |     0.002540
+x2(t)    |     0.000000 |     0.008953 |     0.008953
+a        |     1.000000 |     0.977524 |     0.022476
+b        |     1.000000 |     1.001555 |     0.001555
+
+
+>>>> Interpolator Method: aaad <<<<
+
+Best cluster (ID 2) found with 1 similar solutions.
+Presenting best solution from this cluster (Error: 0.004300):
+-----------------------------------------------------
+Variable |   True Value |    Estimated |   Rel. Error
+-----------------------------------------------------
+x1(t)    |     2.000000 |     1.851738 |     0.074131
+x2(t)    |     0.000000 |     0.489359 |     0.489359
+a        |     1.000000 |     1.030781 |     0.030781
+b        |     1.000000 |     0.875612 |     0.124388
+
+
+--- Noise Level: 0.05 ---
+
+##### Estimator: Opt #####
+
+Best cluster (ID 1) found with 1 similar solutions.
+Presenting best solution from this cluster (Error: inf):
+-----------------------------------------------------
+Variable |   True Value |    Estimated |   Rel. Error
+-----------------------------------------------------
+x1(t)    |     2.000000 |     2.000000 |     0.000000
+x2(t)    |     0.000000 |     0.000000 |     0.000000
+a        |     1.000000 |     1.071382 |     0.071382
+b        |     1.000000 |     1.062378 |     0.062378
+
+
+##### Estimator: PE #####
+
+>>>> Interpolator Method: GPR <<<<
+
+Best cluster (ID 2) found with 1 similar solutions.
+Presenting best solution from this cluster (Error: 0.003830):
+-----------------------------------------------------
+Variable |   True Value |    Estimated |   Rel. Error
+-----------------------------------------------------
+x1(t)    |     2.000000 |     2.009289 |     0.004644
+x2(t)    |     0.000000 |    -0.005438 |     0.005438
+a        |     1.000000 |     0.984340 |     0.015660
+b        |     1.000000 |     0.980417 |     0.019583
+
+
+>>>> Interpolator Method: aaad <<<<
+
+Best cluster (ID 2) found with 1 similar solutions.
+Presenting best solution from this cluster (Error: 1000000000000000.000000):
+-----------------------------------------------------
+Variable |   True Value |    Estimated |   Rel. Error
+-----------------------------------------------------
+x1(t)    |     2.000000 |     0.987213 |     0.506394
+x2(t)    |     0.000000 |     0.306779 |     0.306779
+a        |     1.000000 |    -1.798997 |     2.798997
+b        |     1.000000 |    -0.060124 |     1.060124
+

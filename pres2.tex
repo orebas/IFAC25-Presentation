@@ -53,7 +53,7 @@
 \end{frame}
 
 % Slide 2: Intro & Motivation
-\begin{frame}{Parameter Estimation for ODE Systems}
+\begin{frame}[shrink]{Parameter Estimation for ODE Systems}
     \begin{columns}[T]
         \begin{column}{0.48\textwidth}
             \begin{block}{Nonlinear Optimization Methods}
@@ -104,7 +104,7 @@
 \end{frame}
 
 % Slide 4: Two Critical Bottlenecks
-\begin{frame}{Two Critical Bottlenecks}
+\begin{frame}[shrink]{Two Critical Bottlenecks}
     \large
     The practical success of the algebraic method hinges on two challenging steps:
     \vspace{2em}
@@ -139,13 +139,13 @@
 \end{frame}
 
 % Slide 5: The Challenge of Differentiation
-\begin{frame}{The Challenge: Differentiating Noisy Data}
+\begin{frame}[shrink]{The Challenge: Differentiating Noisy Data}
   \begin{columns}[t]
     % Left column - Interpolation approach
     \begin{column}{0.48\textwidth}
       \begin{block}{Problem: Interpolation Overfits Noise}
         \tiny
-        Methods like polynomial or rational interpolation (e.g., AAA) are designed to pass \textit{through} data points. With noisy data, this leads to severe oscillations and unusable derivative estimates.
+        Methods like polynomial or rational interpolation (e.g., AAA) pass \textit{through} data points, causing severe oscillations with noisy data. Furthermore, many common methods (e.g., finite differences, local polynomials) struggle to produce the stable, higher-order derivatives required by the algebraic approach.
         \begin{itemize}
             \item Function RMSE: 135.38
             \item Derivative RMSE: 1278.42
@@ -173,14 +173,15 @@
 \end{frame}
 
 % Slide 6: Our Contribution
-\begin{frame}{Our Contribution: Gaussian Process Regression}
+\begin{frame}[shrink]{Our Contribution: Gaussian Process Regression}
     \begin{block}{Why Gaussian Process Regression (GPR)?}
     \small
     Instead of fitting a single function, GPR defines a \textit{prior distribution over functions} and updates it to a \textit{posterior distribution} based on the data.
     \begin{itemize}
         \item \textbf{Principled Smoothing:} A smoothness assumption is encoded in the prior via a kernel function (e.g., RBF). This is a natural fit for physical systems.
         \item \textbf{Noise Modeling:} GPR explicitly models measurement noise ($\varepsilon \sim \mathcal{N}(0, \sigma_n^2)$), learning the noise level from the data itself.
-        \item \textbf{Analytic Derivatives:} The posterior mean function is a smooth, infinitely differentiable function whose derivatives can be computed analytically.
+        \item \textbf{Analytic Derivatives:} The posterior mean function is a smooth, infinitely differentiable function whose derivatives could be computed analytically.  In practice, we are using automatic differentiation.
+        \item \textbf{Noiseless Performance:} In the absence of noise, GPR performance is competitive with high-accuracy interpolation methods, ensuring no significant trade-off.
     \end{itemize}
     \end{block}
     \vspace{1em}
@@ -191,77 +192,26 @@
     \end{alertblock}
 \end{frame}
 
-% Slide 7: Differentiator Benchmark
-\begin{frame}{Differentiator Benchmark Results}
-    \begin{columns}[T]
-        % Left Panel: Noise Sensitivity
-        \begin{column}{0.48\textwidth}
-            \centering
-            \textbf{Noise Sensitivity}\\
-            \small{RMSE vs. Noise Level}
-            \vspace{0.5em}
-            \includegraphics[width=0.9\textwidth]{noise_cliff.pdf}
-            \vspace{0.5em}
-            \begin{block}{\tiny Analysis}
-            \begin{itemize}
-                \item \textbf{GPR:} Error scales gracefully with noise.
-                \item \textbf{Interpolation (AAA):} Performance collapses at a critical noise threshold ($\sigma > 10^{-8}$).
-            \end{itemize}
-            \end{block}
-        \end{column}
-        % Right Panel: Derivative Order
-        \begin{column}{0.48\textwidth}
-            \centering
-            \textbf{Higher-Order Derivatives}\\
-            \small{RMSE vs. Derivative Order}
-            \vspace{0.5em}
-            \includegraphics[width=0.9\textwidth]{derivative_wall.pdf}
-            \vspace{0.5em}
-            \begin{block}{\tiny Analysis}
-            \begin{itemize}
-                \item \textbf{GPR:} Graceful degradation in accuracy.
-                \item \textbf{TVDiff:} Fails to converge for orders $\ge 4$.
-                \item \textbf{Finite Diff:} Error grows exponentially.
-            \end{itemize}
-            \end{block}
-        \end{column}
-    \end{columns}
-    \vspace{1em}
-    \begin{alertblock}{Finding}
-        \centering
-        \small GPR demonstrates a superior balance of robustness to both noise and higher derivative orders compared to many common methods.
-    \end{alertblock}
-\end{frame}
-
 % Slide 8: Application Benchmark
-\begin{frame}{Application: End-to-End Parameter Estimation}
-    \begin{block}{Benchmark on Nonlinear Systems (1\% Relative Noise)}
+\begin{frame}[shrink]{Application: End-to-End Parameter Estimation}
+    \begin{block}{Benchmark on Nonlinear Systems}
         \centering
         \small
-        \begin{tabular}{@{}lccc@{}}
-          \toprule
-          \textbf{System} & \textbf{Original Alg. (AAA)} & \textbf{GPR-Algebraic} & \textbf{SciML (Optimizer)} \\
-          \midrule
-          Fitzhugh-Nagumo & \textcolor{errorred}{>100\%} & \textcolor{successgreen}{\textbf{1.8\%}} & 0.5\% \\
-          Lotka-Volterra  & \textcolor{errorred}{>100\%} & \textcolor{successgreen}{\textbf{2.1\%}} & 0.3\% \\
-          SEIR Model      & \textcolor{errorred}{FAIL}   & \textcolor{successgreen}{\textbf{1.2\%}} & 0.4\% \\
-          \bottomrule
-        \end{tabular}
+        \input{summary_table.tex}
         \vspace{0.5em}
         
         \footnotesize
-        \textit{Values are Mean Relative Error (MRE) in parameter estimates. SciML is a standard Levenberg-Marquardt optimizer.}
+        \textit{Values are Mean Relative Error (MRE) in parameter estimates. `AAA` is the original algebraic method, `SciML` is least-squares direct optimization driven by primarily by Optimization.jl.}
     \end{block}
-    
-    \vspace{1em}
     
     \begin{columns}[T]
         \begin{column}{0.6\textwidth}
             \begin{alertblock}{Interpretation}
-                \small
+                \footnotesize
                 \begin{itemize}
-                    \item The original algebraic method (using AAA) is unusable with noisy data.
-                    \item The GPR-enhanced method yields accurate results and is competitive with a standard nonlinear optimization approach.
+                    \item At zero noise, methods are comparable.
+                    \item As noise increases, the AAA-based algebraic method fails catastrophically.
+                    \item The GPR-enhanced method remains robust and provides accurate estimates, outperforming the baseline direct optimization.
                 \end{itemize}
             \end{alertblock}
         \end{column}
@@ -275,7 +225,7 @@
 \end{frame}
 
 % Slide 9: Conclusion
-\begin{frame}{Conclusion \& Future Work}
+\begin{frame}[shrink]{Conclusion \& Future Work}
     \begin{columns}[T]
         \begin{column}{0.55\textwidth}
             \begin{block}{Conclusion}
@@ -289,8 +239,8 @@
         \begin{column}{0.4\textwidth}
             \begin{block}{Future Work}
                 \begin{itemize}
-                    \item Propagate GPR uncertainty to get confidence intervals on parameters.
-                    \item Use uncertainty for optimal experimental design.
+                    \item Propagate GPR derivative uncertainty to parameter estimates.
+                    \item Develop ``physics-informed" priors for GPR using the ODE structure.
                     \item Explore sparse GPs to improve computational scaling for large datasets.
                 \end{itemize}
             \end{block}
